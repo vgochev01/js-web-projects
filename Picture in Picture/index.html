@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Picture in Picture</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    
-    <!-- Old Favicon - Grab Icon From Google (Might be unsupported in the future) -->
-    <!-- <link rel="icon" type="image/png" href="https://s2.googleusercontent.com/s2/favicons?domain=jacinto.design"> -->
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,7 +12,8 @@
     <video id="video" controls height="360" width="640" hidden></video>
     <!-- Button Container -->
     <div class="button-container">
-        <button id="button">START</button>
+        <button id="startBtn">START</button>
+        <button id="stopBtn" hidden>STOP</button>
     </div>
     <!-- Script -->
     <script src="app.js"></script>
