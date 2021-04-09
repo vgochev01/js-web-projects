@@ -28,14 +28,12 @@ window.addEventListener('scroll', async (ev) => {
 async function getPhotos() {
     try {
         // Show Loader
-        toggleLoader()
+        loader.hidden = false;
         // Fetch new photos
         const response = await fetch(apiUrl);
         let photos = await response.json();
         // Attach new photos to the image container
         displayPhotos(photos);
-        // Hide Loader
-        toggleLoader()
     } catch (err) {
         console.error(err.message);
         alert('Please try again later!');
@@ -59,14 +57,12 @@ function displayPhotos(photos) {
             loadedImages++;
             if(loadedImages == totalImages){
                 readyToFetch = true;
+                // Hide Loader
+                loader.hidden = true;
             }
         })
 
         imgLink.appendChild(imgEl);
         imgContainer.appendChild(imgLink);
     });
-}
-
-function toggleLoader() {
-    loader.hidden = !loader.hidden;
 }
