@@ -36,7 +36,7 @@ function toggleDarkLightMode(mode = 'light'){
 
 // Set Images src according to the mode
 function imageMode(mode = 'light') {
-    image1.src = `/img/undraw_conceptual_idea_${mode}.svg`;
-    image2.src = `/img/undraw_proud_coder_${mode}.svg`;
-    image3.src = `/img/undraw_feeling_proud_${mode}.svg`;
+    image1.src = `./img/undraw_conceptual_idea_${mode}.svg`;
+    image2.src = `./img/undraw_proud_coder_${mode}.svg`;
+    image3.src = `./img/undraw_feeling_proud_${mode}.svg`;
 }
