@@ -13,20 +13,20 @@ const progressBar = document.getElementById('progress');
 // Music
 const songs = [
     {
-        title: "Electric Chill Machine",
+        title: "First Song",
         artist: "Jacinto",
         imgSrc: './img/jacinto-1.jpg',
         src: "./music/jacinto-1.mp3"
     },
     {
         title: "Second Song",
-        artist: "Jacinto 2",
+        artist: "Jacinto",
         imgSrc: './img/jacinto-2.jpg',
         src: "./music/jacinto-2.mp3"
     },
     {
         title: "Third Song",
-        artist: "Jacinto 3",
+        artist: "Jacinto",
         imgSrc: './img/jacinto-3.jpg',
         src: "./music/jacinto-3.mp3"
     }
@@ -38,7 +38,7 @@ let currentSeconds = 0;
 let currentSongIndex = 0;
 let songDuration = 0;
 
-switchSong();
+switchSong('init');
 
 playPauseBtn.addEventListener("click", () => {
   if (audioElement.paused) {
@@ -48,15 +48,9 @@ playPauseBtn.addEventListener("click", () => {
   }
 });
 
-prevBtn.addEventListener('click', () => {
-    currentSongIndex = currentSongIndex == 0 ? songs.length - 1 : currentSongIndex - 1;
-    switchSong();
-})
+prevBtn.addEventListener('click', () => switchSong('prev'))
 
-nextBtn.addEventListener('click', () => {
-    currentSongIndex = currentSongIndex == songs.length - 1 ? 0 : currentSongIndex + 1;
-    switchSong();
-})
+nextBtn.addEventListener('click', () => switchSong('next'))
 
 audioElement.addEventListener('loadedmetadata', () => {
     songDuration = Math.floor(audioElement.duration);
@@ -67,11 +61,20 @@ audioElement.addEventListener('loadedmetadata', () => {
 
 audioElement.addEventListener('timeupdate', updateProgress);
 
-progressContainer.addEventListener('click', () => {
-    console.log(event);
-})
+audioElement.addEventListener('ended', () => switchSong('next'));
 
-function switchSong() {
+progressContainer.addEventListener('click', function (ev) {
+    currentTime = (ev.offsetX / this.clientWidth) * songDuration
+    audioElement.currentTime = currentTime;
+});
+
+function switchSong(song = 'next') {
+    if(song == 'next'){
+        currentSongIndex = currentSongIndex == songs.length - 1 ? 0 : currentSongIndex + 1;
+    } else if(song == 'prev'){
+        currentSongIndex = currentSongIndex == 0 ? songs.length - 1 : currentSongIndex - 1;
+    }
+
     title.textContent = songs[currentSongIndex].title;
     artist.textContent = songs[currentSongIndex].artist;
     image.src = songs[currentSongIndex].imgSrc;
@@ -101,6 +104,6 @@ function updateProgress(){
     const minutes = Math.floor(timeSeconds / 60);
     const seconds = timeSeconds % 60;
     currentTimeSpan.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    const percentage = (timeSeconds / 100) * songDuration;
-    progressBar.style.width = percentage + '%';
+    const percentage = (timeSeconds / songDuration) * 100;
+    progressBar.style.width = `${percentage}%`;
 }
