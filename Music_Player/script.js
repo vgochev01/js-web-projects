@@ -7,6 +7,8 @@ const duration = document.getElementById("duration");
 const image = document.getElementById('songImage');
 const title = document.getElementById('title');
 const artist = document.getElementById('artist');
+const progressContainer = document.getElementById('progress-container');
+const progressBar = document.getElementById('progress');
 
 // Music
 const songs = [
@@ -31,6 +33,8 @@ const songs = [
 ]
 
 let currentTime = 0;
+let currentMinutes = 0;
+let currentSeconds = 0;
 let currentSongIndex = 0;
 let songDuration = 0;
 
@@ -55,14 +59,16 @@ nextBtn.addEventListener('click', () => {
 })
 
 audioElement.addEventListener('loadedmetadata', () => {
-    const songDuration = Math.floor(audioElement.duration);
+    songDuration = Math.floor(audioElement.duration);
     const minutes = Math.floor(songDuration / 60);
     const seconds = songDuration % 60;
     duration.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 })
 
-audioElement.addEventListener('playing', () => {
+audioElement.addEventListener('timeupdate', updateProgress);
 
+progressContainer.addEventListener('click', () => {
+    console.log(event);
 })
 
 function switchSong() {
@@ -72,6 +78,8 @@ function switchSong() {
     audioElement.src = songs[currentSongIndex].src;
     currentTime = 0;
     playPauseBtn.classList.contains('fa-pause') ? playPauseBtn.classList.replace('fa-pause', 'fa-play') : '';
+    progressBar.style.width = '0%';
+    currentTimeSpan.textContent = '00:00';
 }
 
 function playSong(ev) {
@@ -86,4 +94,13 @@ function pauseSong() {
   currentTime = audioElement.currentTime;
   playPauseBtn.setAttribute("title", "Play");
   playPauseBtn.classList.replace("fa-pause", "fa-play");
+}
+
+function updateProgress(){
+    const timeSeconds = Math.floor(audioElement.currentTime);
+    const minutes = Math.floor(timeSeconds / 60);
+    const seconds = timeSeconds % 60;
+    currentTimeSpan.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const percentage = (timeSeconds / 100) * songDuration;
+    progressBar.style.width = percentage + '%';
 }
