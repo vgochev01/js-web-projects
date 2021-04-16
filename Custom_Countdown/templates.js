@@ -1,10 +1,10 @@
 import { html } from "./node_modules/lit-html/lit-html.js";
 
-export const selectDateTemplate = (minDate, updateCountdown) => html`
+export const selectDateTemplate = (minDate, processFormData) => html`
   <!-- Input -->
   <div class="input-container" id="input-container">
     <h1>Create a Custom Countdown!</h1>
-    <form @submit=${updateCountdown} class="form" id="countdownForm">
+    <form @submit=${processFormData} class="form" id="countdownForm">
       <label for="title">Title</label>
       <input
         type="text"
@@ -33,11 +33,11 @@ export const countdownTemplate = (date, title, resetCountdown) => html`
   </div>
 `;
 
-export const completedTemplate = (title, showInput) => html`
+export const completedTemplate = (title, date, showInput) => html`
   <!-- Complete -->
   <div class="complete" id="complete">
     <h1 class="complete-title">Countdown Complete!</h1>
-    <h1 id="complete-info">${title}</h1>
+    <h1 id="complete-info">${title} finished on ${date}!</h1>
     <button @click=${showInput} id="complete-button">NEW COUNTDOWN</button>
   </div>
 `;
