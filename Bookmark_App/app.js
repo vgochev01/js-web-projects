@@ -7,12 +7,10 @@ const modalContainer = document.getElementById("modal");
 const bookmarkForm = document.getElementById("bookmark-form");
 const bookmarkContainer = document.getElementById("bookmarks-container");
 
-
 const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
 
-renderBookmarks()
-
 attachEventListeners();
+renderBookmarks()
 
 function attachEventListeners() {
   addBookmarkBtn.addEventListener("click", () =>
