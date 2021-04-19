@@ -11,25 +11,40 @@ const currentTime = document.querySelector('.time-elapsed');
 const duration = document.querySelector('.time-duration');
 const fullscreenBtn = document.querySelector('.fullscreen');
 
+
+attachEventListeners();
+
+let videoDuration;
+
 // Play & Pause ----------------------------------- //
 
+function togglePlay(){
+  if(video.paused){
+    video.play();
+    playBtn.classList.replace('fa-play', 'fa-pause');
+  } else {
+    video.pause();
+    playBtn.classList.replace('fa-pause', 'fa-play');
+  }
+}
 
-// On video end, show play button icon
-video.addEventListener('ended', showPlayIcon);
+function updateProgress(){
+  // Update Time
+  console.log('2', video.currentTime);
+  const time = video.currentTime;
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  currentTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} / `;
 
-// Progress Bar ---------------------------------- //
+  //Update Progress bar
+  progressBar.style.width = `${(time / videoDuration) * 100}%`;
+}
 
-// Format current time, duration
-
-// Update progress bar as video plays
-
-// Click to seek within the video
-
-// Volume Controls --------------------------- //
-
-// Mute
-
-// Volume Bar
+function setProgress(ev){
+  video.currentTime = (ev.offsetX / ev.target.clientWidth) * videoDuration;
+  console.log(video.currentTime);
+  updateProgress();
+}
 
 // Change Playback Speed -------------------- //
 
@@ -41,13 +56,52 @@ video.addEventListener('ended', showPlayIcon);
 
 // Toggle fullscreen
 
+function setDuration() {
+  videoDuration = Math.floor(video.duration);
+  const minutes = Math.floor(videoDuration / 60);
+  const seconds = Math.floor(videoDuration % 60);
+  duration.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function toggleMute(){
+  video.muted = !video.muted;
+  if(video.muted){
+    volumeIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+  } else {
+    volumeIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+  }
+}
+
+function changeVolume(ev){
+  const selectedVolume = ev.offsetX / ev.target.clientWidth;
+  video.volume = selectedVolume.toFixed(2);
+  volumeBar.style.width = `${selectedVolume * 100}%`
+}
+
+function changeSpeed(ev){
+  video.playbackRate = ev.target.value;
+}
+
+function toggleFullscreen(){
+  video.requestFullscreen();
+}
+
+function onEnd(){
+  video.currentTime = 0;
+  playBtn.classList.replace('fa-pause', 'fa-play');
+}
+
 // Event Listeners
-playBtn.addEventListener('click', togglePlay);
-video.addEventListener('click', togglePlay);
-video.addEventListener('timeupdate', updateProgress);
-video.addEventListener('canplay', updateProgress);
-progressRange.addEventListener('click', setProgress);
-volumeRange.addEventListener('click', changeVolume);
-volumeIcon.addEventListener('click', toggleMute);
-speed.addEventListener('change', changeSpeed);
-fullscreenBtn.addEventListener('click', toggleFullscreen);
+function attachEventListeners(){
+  video.addEventListener('loadedmetadata', setDuration);
+  video.addEventListener('click', togglePlay);
+  video.addEventListener('timeupdate', updateProgress);
+  video.addEventListener('ended', onEnd)
+  progressRange.addEventListener('click', setProgress);
+  playBtn.addEventListener('click', togglePlay);
+  volumeRange.addEventListener('click', changeVolume);
+  volumeIcon.addEventListener('click', toggleMute);
+  speed.addEventListener('change', changeSpeed);
+  fullscreenBtn.addEventListener('click', toggleFullscreen);
+  // video.addEventListener('canplay', updateProgress);
+}
