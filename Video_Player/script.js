@@ -15,6 +15,8 @@ const fullscreenBtn = document.querySelector('.fullscreen');
 attachEventListeners();
 
 let videoDuration;
+let lastVolume = 1;
+let fullscreen = false;
 
 // Play & Pause ----------------------------------- //
 
@@ -30,7 +32,6 @@ function togglePlay(){
 
 function updateProgress(){
   // Update Time
-  console.log('2', video.currentTime);
   const time = video.currentTime;
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -41,20 +42,9 @@ function updateProgress(){
 }
 
 function setProgress(ev){
-  video.currentTime = (ev.offsetX / ev.target.clientWidth) * videoDuration;
-  console.log(video.currentTime);
+  video.currentTime = (ev.offsetX / progressRange.offsetWidth) * videoDuration;
   updateProgress();
 }
-
-// Change Playback Speed -------------------- //
-
-// Fullscreen ------------------------------- //
-
-/* View in fullscreen */
-
-/* Close fullscreen */
-
-// Toggle fullscreen
 
 function setDuration() {
   videoDuration = Math.floor(video.duration);
@@ -66,24 +56,76 @@ function setDuration() {
 function toggleMute(){
   video.muted = !video.muted;
   if(video.muted){
-    volumeIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+    volumeIcon.className = 'fas fa-volume-mute';
+    volumeIcon.setAttribute('title', 'Unmute');
   } else {
-    volumeIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+    changeVolumeIcon(lastVolume);
+    volumeIcon.setAttribute('title', 'Mute');
   }
 }
 
 function changeVolume(ev){
-  const selectedVolume = ev.offsetX / ev.target.clientWidth;
-  video.volume = selectedVolume.toFixed(2);
+  let selectedVolume = ev.offsetX / volumeRange.offsetWidth;
+  if(selectedVolume < 0.1){
+    selectedVolume = 0;
+  } 
+  if(selectedVolume > 0.9){
+    selectedVolume = 1;
+  }
+
+  video.volume = selectedVolume;
   volumeBar.style.width = `${selectedVolume * 100}%`
+  changeVolumeIcon(selectedVolume);
+
+  lastVolume = selectedVolume;
+}
+
+function changeVolumeIcon(volume){
+  volumeIcon.className = '';
+  if(volume > 0.7){
+    volumeIcon.classList.add('fas', 'fa-volume-up');
+  } else if(volume < 0.7 && volume > 0){
+    volumeIcon.classList.add('fas', 'fa-volume-down');
+  } else {
+    volumeIcon.classList.add('fas', 'fa-volume-off');
+  }
 }
 
 function changeSpeed(ev){
   video.playbackRate = ev.target.value;
 }
 
+function openFullscreen() {
+  if (player.requestFullscreen) {
+    player.requestFullscreen();
+  } else if (player.webkitRequestFullscreen) { /* Safari */
+    player.webkitRequestFullscreen();
+  } else if (player.msRequestFullscreen) { /* IE11 */
+    player.msRequestFullscreen();
+  }
+
+  video.classList.add('video-fullscreen');
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  }
+  video.classList.remove('video-fullscreen');
+}
+
 function toggleFullscreen(){
-  video.requestFullscreen();
+  if(!fullscreen){
+    openFullscreen();
+  } else {
+    closeFullscreen();
+  }
+
+  fullscreen = !fullscreen;
 }
 
 function onEnd(){
