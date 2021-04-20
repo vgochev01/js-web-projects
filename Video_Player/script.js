@@ -91,10 +91,6 @@ function changeVolumeIcon(volume){
   }
 }
 
-function changeSpeed(ev){
-  video.playbackRate = ev.target.value;
-}
-
 function openFullscreen() {
   if (player.requestFullscreen) {
     player.requestFullscreen();
@@ -143,7 +139,7 @@ function attachEventListeners(){
   playBtn.addEventListener('click', togglePlay);
   volumeRange.addEventListener('click', changeVolume);
   volumeIcon.addEventListener('click', toggleMute);
-  speed.addEventListener('change', changeSpeed);
+  speed.addEventListener('change', ev => video.playbackRate = ev.target.value);
   fullscreenBtn.addEventListener('click', toggleFullscreen);
   // video.addEventListener('canplay', updateProgress);
 }
