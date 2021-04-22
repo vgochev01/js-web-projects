@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA API Pictures</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://s2.googleusercontent.com/s2/favicons?domain=www.nasa.gov">
+    <!-- ZTM Favicon -->
+    <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
+</head>
+<body>
+    <!-- Container -->
+    <div class="loader hidden">
+        <img src="./rocket.svg" alt="Rocket Loading Animation">
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Navigation -->
+        <div class="navigation-container">
+            <span class="background"></span>
+            <!-- Results Nav -->
+            <span class="navigation-items" id="resultsNav">
+                <h3 class="clickable">Favourites</h3>
+                <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
+                <h3 class="clickable">Load More</h3>
+            </span>
+            <!-- Favourites Nav -->
+            <span class="navigation-items hidden" id="favouritesNav">
+                <h3 class="clickable">Load More Nasa Images</h3>
+            </span>
+        </div>
+        <!-- Images Container -->
+        <div class="images-container">
+            <!-- Card -->
+            <div class="card">
+                <a href="javascript:void(0)" title="View Full Image" target="_blank">
+                    <img src="https://apod.nasa.gov/apod/image/2104/ISS002-E-7377_1024c.JPG" alt="Nasa Picture of the Day" class="card-image-top">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">Title of Image</h5>
+                    <p class="clickable">Add to Favourites</p>
+                    <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos vero sint officiis assumenda quam perferendis architecto accusantium natus voluptatibus necessitatibus, reiciendis, labore quo placeat culpa quod sapiente doloremque iste temporibus! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum quo atque ducimus id rerum impedit ut ea, natus consequatur tempore, non corporis? Tempora saepe exercitationem sapiente perferendis soluta nam veritatis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas porro enim harum? Eligendi nam consequatur dicta eos repellat labore accusamus sit, a hic nostrum officia, at obcaecati cupiditate incidunt? Asperiores?</p>
+                    <small class="text-muted">
+                        <strong>12-12-2020</strong>
+                        <span>Copyright info</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Save Confirmation -->
+    <div class="save-confirmed">
+        <h1>Added!</h1>
+    </div>
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
