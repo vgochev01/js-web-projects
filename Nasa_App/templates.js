@@ -29,3 +29,9 @@ export const loader = () => html`
     <img src="./rocket.svg" alt="Rocket Loading Animation">
 </div>
 `;
+
+export const emptyFavourites = () => html`
+<div class="empty">
+    <h2>You havent't added anything to favourites yet.</h2>
+</div>
+`;

@@ -39,6 +39,11 @@ a {
   z-index: 10;
 }
 
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Navigation */
 .navigation-container {
@@ -133,7 +138,6 @@ a {
     text-align: justify;
   }
 
-
   .card-title {
     font-size: 20px;
   }
@@ -146,4 +150,8 @@ a {
     right: 25px;
   }
   
+  .empty {
+    margin: 0 15px;
+    font-size: 10px;
+  }
 }

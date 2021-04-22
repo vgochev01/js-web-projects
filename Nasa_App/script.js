@@ -1,7 +1,7 @@
 import { render } from './node_modules/lit-html/lit-html.js';
-import page from './node_modules/page/page.mjs';
 import { until } from './node_modules/lit-html/directives/until.js';
-import { cardTemplate, loader } from './templates.js';
+import page from './node_modules/page/page.mjs';
+import { cardTemplate, loader, emptyFavourites } from './templates.js';
 
 const imagesContainer = document.querySelector('.images-container');
 const saveConfirmed = document.querySelector('.save-confirmed');
@@ -17,8 +17,6 @@ let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 page('/', renderPhotos);
 page('/favourites', renderFavourites);
 page.start();
-
-
 
 async function getNasaPictures(){
     try {
@@ -38,11 +36,15 @@ function renderPhotos(){
 
 function renderFavourites(){
     toggleNavs(favouritesNav, resultsNav);
-    render(favourites.map((data) => cardTemplate(data, deleteFavourites, true)), imagesContainer);
+    if(favourites.length){
+        render(favourites.map((data) => cardTemplate(data, deleteFavourites, true)), imagesContainer);
+    } else {
+        render(emptyFavourites(), imagesContainer);
+    }
 }
 
 function addToFavourites(ev, data){
-    if(favourites.some((cur) => cur == data)){
+    if(favourites.some(cur => cur == data)){
         return alert('Already added to favourites!');
     }
     favourites.push(data);
