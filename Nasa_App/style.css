@@ -11,6 +11,10 @@ body {
   line-height: 1.8rem;
 }
 
+a {
+  text-decoration: none;
+}
+
 .container {
   position: relative;
   display: flex;
@@ -24,6 +28,8 @@ body {
 
 .loader {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: whitesmoke;
