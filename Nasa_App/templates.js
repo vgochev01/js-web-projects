@@ -4,7 +4,7 @@ export const cardTemplate = (data, favouritesHandler, isFavourite) => html`
 <!-- Card -->
 <div class="card">
     <a href="${data.hdurl || data.url}" title="View Full Image" target="_blank">
-        <img src="${data.hdurl || data.url}" alt="Nasa Picture of the Day" class="card-image-top">
+        <img src="${data.url}" alt="Nasa Picture of the Day" class="card-image-top">
     </a>
     <div class="card-body">
         <h5 class="card-title">${data.title}</h5>
@@ -18,7 +18,7 @@ export const cardTemplate = (data, favouritesHandler, isFavourite) => html`
         <p class="card-text">${data.explanation}</p>
         <small class="text-muted">
             <strong>${data.date}</strong>
-            <span>${data.copyright}</span>
+            <span>${data.copyright || ''}</span>
         </small>
     </div>
 </div>
