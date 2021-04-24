@@ -51,7 +51,7 @@ function addToFavourites(ev, data){
     localStorage.setItem('favourites', JSON.stringify(favourites));
     toggleSavedConfirmation()
     ev.target.remove();
-    setTimeout(() => toggleSavedConfirmation(), 2500);
+    setTimeout(() => toggleSavedConfirmation(), 2000);
 }
 
 function deleteFavourites(data){
@@ -66,6 +66,7 @@ function toggleSavedConfirmation(){
 }
 
 function toggleNavs(toShow, toHide){
+    window.scrollTo({top: 0, behavior: 'smooth'});
     toShow.classList.remove('hidden');
     toHide.classList.add('hidden');
 }
