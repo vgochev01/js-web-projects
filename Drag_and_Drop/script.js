@@ -52,7 +52,9 @@ function createItemEl(columnEl, item, index) {
   listEl.classList.add('drag-item');
   listEl.textContent = item;
   listEl.draggable = true;
+  listEl.contentEditable = true;
   listEl.addEventListener('dragstart', dragItem);
+  listEl.addEventListener('focusout', onFocusOut);
   // Append to column
   columnEl.appendChild(listEl);
 }
@@ -99,9 +101,34 @@ function dropItem(ev){
   updateSavedColumns();
 }
 
-function dragEnter(column){
-  columnList[column].classList.add('over');
-  currentColumn = column;
+function dragEnter(columnIndex){
+  columnList[columnIndex].classList.add('over');
+  currentColumn = columnIndex;
+}
+
+function showInput(columnIndex){
+  addItemContainers[columnIndex].style.display = "flex";
+  addBtns[columnIndex].style.visibility = 'hidden';
+  saveItemBtns[columnIndex].style.display = 'flex';
+}
+
+function hideInput(columnIndex){
+  const itemText = addItems[columnIndex].textContent.trim();
+  if(itemText){
+    let columnArrays = [backlogListArray, progressListArray, completeListArray, onHoldListArray];
+    columnArrays[columnIndex].push(itemText);
+    updateSavedColumns();
+    updateDOM();
+    addItems[columnIndex].textContent = '';
+  }
+
+  addItemContainers[columnIndex].style.display = "none";
+  addBtns[columnIndex].style.visibility = 'visible';
+  saveItemBtns[columnIndex].style.display = 'none';
+}
+
+function onFocusOut(ev){
+  console.log(true);
 }
 
 function attachEvents(){
@@ -110,4 +137,12 @@ function attachEvents(){
     l.addEventListener('dragenter', () => dragEnter(i));
     l.addEventListener('drop', dropItem);
   });
+
+  addBtns.forEach((b, i) => {
+    b.addEventListener('click', () => showInput(i));
+  })
+
+  saveItemBtns.forEach((b, i) => {
+    b.addEventListener('click', () => hideInput(i));
+  })
 }
