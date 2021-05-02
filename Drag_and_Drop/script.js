@@ -47,7 +47,7 @@ function updateSavedColumns() {
 }
 
 // Create DOM Elements for each list item
-function createItemEl(columnEl, columnIndex, item, index) {
+function createItemEl(columnEl, columnIndex, item) {
   // List Item
   const listEl = document.createElement('li');
   listEl.classList.add('drag-item');
@@ -76,7 +76,6 @@ function updateDOM() {
   // On Hold Column
   onHoldList.innerHTML = '';
   onHoldListArray.forEach((listItem, index) => createItemEl(onHoldList, 3, listItem, index));
-  // Run getSavedColumns only once, Update Local Storage
 }
 
 function dragItem(ev){
