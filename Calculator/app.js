@@ -10,14 +10,14 @@ const operations = {
 }
 
 let operationFn;
-let a = '';
+let a = '0';
 let b = '';
 let activeNumber = 'a';
 let decimalAdded = false;
 
 calculatorButtons.addEventListener('click', (ev) => {
     const selectedValue = ev.target.value;
-    if(a != '0' && ev.target.classList.contains('operator') && selectedValue != '='){
+    if(ev.target.classList.contains('operator') && selectedValue != '='){
         operationFn = operations[selectedValue];
         activeNumber = 'b';
         decimalAdded = false;
